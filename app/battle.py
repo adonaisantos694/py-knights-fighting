@@ -11,17 +11,20 @@ def fight(knight_1: Knight, knight_2: Knight) -> None:
 
 
 def battle(knights_config: Dict[str, Any]) -> Dict[str, int]:
-    lancelot = Knight(knights_config["lancelot"])
-    mordred = Knight(knights_config["mordred"])
-    arthur = Knight(knights_config["arthur"])
-    red_knight = Knight(knights_config["red_knight"])
+    knights: Dict[str, Knight] = {}
 
-    fight(lancelot, mordred)
-    fight(arthur, red_knight)
+    # Criar todos os knights dinamicamente
+    for key, config in knights_config.items():
+        knights[key] = Knight(config)
 
-    return {
-        lancelot.name: lancelot.hp,
-        arthur.name: arthur.hp,
-        mordred.name: mordred.hp,
-        red_knight.name: red_knight.hp,
-    }
+    # Executar as batalhas (mantendo a mesma lógica original)
+    fight(knights["lancelot"], knights["mordred"])
+    fight(knights["arthur"], knights["red_knight"])
+
+    # Construir o resultado dinamicamente
+    results: Dict[str, int] = {}
+
+    for knight in knights.values():
+        results[knight.name] = knight.hp
+
+    return results
